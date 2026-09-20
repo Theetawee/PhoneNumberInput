@@ -11,8 +11,8 @@ A phone number input for React with a searchable country picker and live validat
 
 ```tsx
 <PhoneNumberInput
-  defaultCountry="UG"
-  onChange={(v) => console.log(v.country, v.number, v.nationalNumber, v.isValid)}
+    defaultCountry="UG"
+    onChange={(v) => console.log(v.country, v.number, v.nationalNumber, v.isValid)}
 />
 ```
 
@@ -22,7 +22,7 @@ A phone number input for React with a searchable country picker and live validat
   - [Contents](#contents)
   - [Install](#install)
   - [Quick start](#quick-start)
-    - [Tailwind setup](#tailwind-setup)
+    - [Styling](#styling)
   - [The value you get back](#the-value-you-get-back)
   - [Validation](#validation)
     - [Messages](#messages)
@@ -30,7 +30,7 @@ A phone number input for React with a searchable country picker and live validat
   - [Controlled and uncontrolled use](#controlled-and-uncontrolled-use)
   - [Countries and flags](#countries-and-flags)
     - [Flags](#flags)
-  - [Styling](#styling)
+  - [Styling](#styling-1)
     - [1. Add classes with `className` and `classNames`](#1-add-classes-with-classname-and-classnames)
     - [2. Make classes depend on state](#2-make-classes-depend-on-state)
     - [3. Replace the defaults with `unstyled`](#3-replace-the-defaults-with-unstyled)
@@ -48,54 +48,40 @@ A phone number input for React with a searchable country picker and live validat
 ## Install
 
 ```bash
-npm install your-package-name
+npm install waanverse-phonenumber-input
 ```
 
-Requires React 18 or newer.
+Requires React 19 or newer.
 
 ## Quick start
 
 ```tsx
-import { useState } from 'react'
-import PhoneNumberInput, { type PhoneValue } from 'your-package-name'
+import { useState } from "react";
+import { PhoneNumberInput, type PhoneValue } from "waanverse-phonenumber-input";
 
 export default function Example() {
-  const [phone, setPhone] = useState<PhoneValue | null>(null)
+    const [phone, setPhone] = useState<PhoneValue | null>(null);
 
-  return (
-    <>
-      <PhoneNumberInput
-        defaultCountry="UG"
-        preferredCountries={['UG', 'KE', 'TZ', 'RW']}
-        onChange={setPhone}
-      />
-      <button disabled={!phone?.isValid}>Continue</button>
-    </>
-  )
+    return (
+        <>
+            <PhoneNumberInput
+                defaultCountry="UG"
+                preferredCountries={["UG", "KE", "TZ", "RW"]}
+                onChange={setPhone}
+            />
+            <button disabled={!phone?.isValid}>Continue</button>
+        </>
+    );
 }
 ```
 
-### Tailwind setup
-
-The default styles are Tailwind classes, so Tailwind has to see them. You need Tailwind 3.2 or newer (v4 works too).
-
-**Tailwind v3**: add the package to `content` in `tailwind.config.js`:
-
-```js
-content: [
-  './src/**/*.{js,ts,jsx,tsx}',
-  './node_modules/your-package-name/dist/**/*.js',
-],
-```
-
-**Tailwind v4**: add a source line to your CSS:
+### Styling
+Include the styling file from `waanverse-phonenumber-input/dist/styles.css` in your CSS bundle as an import or in tailwind config.
 
 ```css
-@import 'tailwindcss';
-@source '../node_modules/your-package-name';
+@import "tailwindcss";
+@source '../node_modules/waanverse-phonenumber-input/dist/styles.css';
 ```
-
-Not using Tailwind? See [Styling without Tailwind](#styling-without-tailwind).
 
 ## The value you get back
 
@@ -103,12 +89,12 @@ Not using Tailwind? See [Styling without Tailwind](#styling-without-tailwind).
 
 ```ts
 interface PhoneValue {
-  country: string         // "UG"
-  dialCode: string        // "256" (no plus)
-  number: string          // "+256772123456": full number, E.164. "" when empty
-  nationalNumber: string  // "772123456": without the country code. "" when empty
-  isValid: boolean        // valid for the selected country
-  status: 'empty' | 'incomplete' | 'valid' | 'invalid'
+    country: string; // "UG"
+    dialCode: string; // "256" (no plus)
+    number: string; // "+256772123456": full number, E.164. "" when empty
+    nationalNumber: string; // "772123456": without the country code. "" when empty
+    isValid: boolean; // valid for the selected country
+    status: "empty" | "incomplete" | "valid" | "invalid";
 }
 ```
 
@@ -123,12 +109,12 @@ Notes:
 
 Validation runs on every keystroke and shows up in three places: the border colour, an icon inside the field, and a message under it.
 
-| Status | Meaning | What the user sees |
-|---|---|---|
-| `empty` | Nothing typed | Nothing |
-| `incomplete` | Could still become valid | A neutral hint while typing; turns into an error after the field loses focus |
-| `valid` | Valid for the selected country | Green border and a check mark |
-| `invalid` | Cannot become valid: too long, or a prefix the country doesn't use | Red border, a cross, and an error message straight away |
+| Status       | Meaning                                                            | What the user sees                                                           |
+| ------------ | ------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| `empty`      | Nothing typed                                                      | Nothing                                                                      |
+| `incomplete` | Could still become valid                                           | A neutral hint while typing; turns into an error after the field loses focus |
+| `valid`      | Valid for the selected country                                     | Green border and a check mark                                                |
+| `invalid`    | Cannot become valid: too long, or a prefix the country doesn't use | Red border, a cross, and an error message straight away                      |
 
 The check for "could still become valid" is a heuristic. If the number isn't valid yet and adding one more digit would already make it too long for that country, the user has typed as much as the country allows, so it's reported `invalid` instead of `incomplete`.
 
@@ -136,13 +122,13 @@ The check for "could still become valid" is a heuristic. If the number isn't val
 
 ```tsx
 <PhoneNumberInput
-  required
-  messages={{
-    invalid: 'That number doesn’t look right',
-    incomplete: 'Keep typing…',
-    required: 'We need your phone number',
-    valid: 'Looks good',   // empty by default
-  }}
+    required
+    messages={{
+        invalid: "That number doesn’t look right",
+        incomplete: "Keep typing…",
+        required: "We need your phone number",
+        valid: "Looks good", // empty by default
+    }}
 />
 ```
 
@@ -205,13 +191,12 @@ When the user searches, the "Popular" grouping is replaced by one ranked list: a
 
 ### Flags
 
-Flags are emoji by default. Windows doesn't render flag emoji (it shows letters like "UG"), so if Windows users matter, supply your own:
-
+Flags are emoji by default displayed by the css file imported. or you can set custom ones with `renderFlag`.
 ```tsx
 <PhoneNumberInput
-  renderFlag={(code) => (
-    <img src={`/flags/${code.toLowerCase()}.svg`} alt="" className="h-4 w-6" />
-  )}
+    renderFlag={(code) => (
+        <img src={`/flags/${code.toLowerCase()}.svg`} alt="" className="h-4 w-6" />
+    )}
 />
 ```
 
@@ -227,13 +212,13 @@ There are three levels, from least to most control.
 
 ```tsx
 <PhoneNumberInput
-  className="w-full max-w-sm"
-  classNames={{
-    root: 'shadow-sm',
-    button: 'bg-neutral-50',
-    message: 'text-xs',
-    modal: 'max-w-md',
-  }}
+    className="w-full max-w-sm"
+    classNames={{
+        root: "shadow-sm",
+        button: "bg-neutral-50",
+        message: "text-xs",
+        modal: "max-w-md",
+    }}
 />
 ```
 
@@ -243,24 +228,24 @@ Any slot can be a function of the current state:
 
 ```tsx
 <PhoneNumberInput
-  classNames={{
-    root: (s) => (s.disabled ? 'opacity-40' : ''),
-    option: (s) => (s.active ? 'bg-indigo-50' : ''),
-    message: (s) => (s.hasError ? 'text-rose-600' : 'text-neutral-400'),
-  }}
+    classNames={{
+        root: (s) => (s.disabled ? "opacity-40" : ""),
+        option: (s) => (s.active ? "bg-indigo-50" : ""),
+        message: (s) => (s.hasError ? "text-rose-600" : "text-neutral-400"),
+    }}
 />
 ```
 
 The state object:
 
-| Field | Type | Meaning |
-|---|---|---|
-| `status` | `'empty' \| 'incomplete' \| 'valid' \| 'invalid'` | Live validation status (always `'empty'` when `showValidation` is `false`) |
-| `hasError` | `boolean` | An error is currently being shown |
-| `disabled` | `boolean` | The input is disabled |
-| `open` | `boolean` | The country modal is open |
-| `active` | `boolean \| undefined` | `option` only: highlighted by hover or keyboard |
-| `selected` | `boolean \| undefined` | `option` only: this is the current country |
+| Field      | Type                                              | Meaning                                                                    |
+| ---------- | ------------------------------------------------- | -------------------------------------------------------------------------- |
+| `status`   | `'empty' \| 'incomplete' \| 'valid' \| 'invalid'` | Live validation status (always `'empty'` when `showValidation` is `false`) |
+| `hasError` | `boolean`                                         | An error is currently being shown                                          |
+| `disabled` | `boolean`                                         | The input is disabled                                                      |
+| `open`     | `boolean`                                         | The country modal is open                                                  |
+| `active`   | `boolean \| undefined`                            | `option` only: highlighted by hover or keyboard                            |
+| `selected` | `boolean \| undefined`                            | `option` only: this is the current country                                 |
 
 ### 3. Replace the defaults with `unstyled`
 
@@ -284,64 +269,82 @@ Tailwind's important modifier (`!rounded-none`) also works as a quick fix for a 
 
 ### Slots
 
-| Slot | Element |
-|---|---|
-| `wrapper` | Outermost element (field + message) |
-| `root` | Bordered box holding the button, input and status icon |
-| `button` | Country button that opens the picker |
-| `buttonFlag` | Flag inside the button |
-| `buttonDialCode` | `+256` inside the button |
-| `buttonIcon` | Chevron inside the button |
-| `input` | The phone number `<input>` |
-| `statusIcon` | Check or cross inside the field |
-| `message` | Validation text under the field |
-| `modal` | The `<dialog>` |
-| `modalHeader` | Row holding the title and close button |
-| `modalTitle` | Modal heading |
-| `modalClose` | Close button |
-| `modalCloseIcon` | Icon inside the close button |
-| `searchWrapper` | Container around the search box |
-| `search` | Search `<input>` |
-| `list` | The scrollable `<ul>` of countries |
-| `groupHeading` | "Popular" and "All countries" headings |
-| `option` | One country row |
-| `optionFlag` | Flag inside a row |
-| `optionName` | Country name inside a row |
-| `optionDialCode` | Dial code inside a row |
-| `emptyState` | "No countries found" |
+| Slot             | Element                                                |
+| ---------------- | ------------------------------------------------------ |
+| `wrapper`        | Outermost element (field + message)                    |
+| `root`           | Bordered box holding the button, input and status icon |
+| `button`         | Country button that opens the picker                   |
+| `buttonFlag`     | Flag inside the button                                 |
+| `buttonDialCode` | `+256` inside the button                               |
+| `buttonIcon`     | Chevron inside the button                              |
+| `input`          | The phone number `<input>`                             |
+| `statusIcon`     | Check or cross inside the field                        |
+| `message`        | Validation text under the field                        |
+| `modal`          | The `<dialog>`                                         |
+| `modalHeader`    | Row holding the title and close button                 |
+| `modalTitle`     | Modal heading                                          |
+| `modalClose`     | Close button                                           |
+| `modalCloseIcon` | Icon inside the close button                           |
+| `searchWrapper`  | Container around the search box                        |
+| `search`         | Search `<input>`                                       |
+| `list`           | The scrollable `<ul>` of countries                     |
+| `groupHeading`   | "Popular" and "All countries" headings                 |
+| `option`         | One country row                                        |
+| `optionFlag`     | Flag inside a row                                      |
+| `optionName`     | Country name inside a row                              |
+| `optionDialCode` | Dial code inside a row                                 |
+| `emptyState`     | "No countries found"                                   |
 
 ### Styling without Tailwind
 
 Use `unstyled` and bring your own CSS, either through `classNames` (CSS modules, any class-based system) or through the data attributes the component sets:
 
-| Attribute | On | Values |
-|---|---|---|
-| `data-slot` | `wrapper`, `root`, `button`, `input`, `message`, `modal`, `search`, `list`, `option` | the slot name |
-| `data-status` | `root` | `empty`, `incomplete`, `valid`, `invalid` |
-| `data-disabled` | `root` | `"true"` when disabled |
-| `data-active` | `option` | `"true"` / `"false"` |
-| `data-selected` | `option` | `"true"` / `"false"` |
+| Attribute       | On                                                                                   | Values                                    |
+| --------------- | ------------------------------------------------------------------------------------ | ----------------------------------------- |
+| `data-slot`     | `wrapper`, `root`, `button`, `input`, `message`, `modal`, `search`, `list`, `option` | the slot name                             |
+| `data-status`   | `root`                                                                               | `empty`, `incomplete`, `valid`, `invalid` |
+| `data-disabled` | `root`                                                                               | `"true"` when disabled                    |
+| `data-active`   | `option`                                                                             | `"true"` / `"false"`                      |
+| `data-selected` | `option`                                                                             | `"true"` / `"false"`                      |
 
 ```tsx
 <PhoneNumberInput unstyled />
 ```
 
 ```css
-[data-slot='root'] {
-  display: flex;
-  align-items: center;
-  border: 1px solid #c9c9c9;
-  border-radius: 8px;
+[data-slot="root"] {
+    display: flex;
+    align-items: center;
+    border: 1px solid #c9c9c9;
+    border-radius: 8px;
 }
-[data-slot='root'][data-status='valid'] { border-color: #16a34a; }
-[data-slot='root'][data-status='invalid'] { border-color: #ef4444; }
+[data-slot="root"][data-status="valid"] {
+    border-color: #16a34a;
+}
+[data-slot="root"][data-status="invalid"] {
+    border-color: #ef4444;
+}
 
-[data-slot='input'] { flex: 1; border: 0; outline: 0; background: transparent; }
+[data-slot="input"] {
+    flex: 1;
+    border: 0;
+    outline: 0;
+    background: transparent;
+}
 
-dialog[data-slot='modal']::backdrop { background: rgb(0 0 0 / 0.5); }
-[data-slot='list'] { overflow-y: auto; max-height: 20rem; }
-[data-slot='option'][data-active='true'] { background: #f0f0f0; }
-[data-slot='option'][data-selected='true'] { font-weight: 600; }
+dialog[data-slot="modal"]::backdrop {
+    background: rgb(0 0 0 / 0.5);
+}
+[data-slot="list"] {
+    overflow-y: auto;
+    max-height: 20rem;
+}
+[data-slot="option"][data-active="true"] {
+    background: #f0f0f0;
+}
+[data-slot="option"][data-selected="true"] {
+    font-weight: 600;
+}
 ```
 
 In unstyled mode the modal and list keep the browser's default look until you style them. The list needs a height limit and `overflow-y: auto` to scroll. Icons default to `1em`.
@@ -351,38 +354,38 @@ In unstyled mode the modal and list keep the browser's default look until you st
 ### With React Hook Form
 
 ```tsx
-import { Controller, useForm } from 'react-hook-form'
-import PhoneNumberInput, { type PhoneValue } from 'your-package-name'
+import { Controller, useForm } from "react-hook-form";
+import PhoneNumberInput, { type PhoneValue } from "your-package-name";
 
-type FormValues = { phone: PhoneValue | undefined }
+type FormValues = { phone: PhoneValue | undefined };
 
 function SignupForm() {
-  const { control, handleSubmit } = useForm<FormValues>()
+    const { control, handleSubmit } = useForm<FormValues>();
 
-  return (
-    <form onSubmit={handleSubmit((data) => console.log(data.phone?.number))}>
-      <Controller
-        name="phone"
-        control={control}
-        rules={{ validate: (v) => v?.isValid || 'Enter a valid phone number' }}
-        render={({ field }) => (
-          <PhoneNumberInput
-            defaultCountry="UG"
-            value={field.value?.number ?? ''}
-            onChange={field.onChange}
-            onBlur={field.onBlur}
-          />
-        )}
-      />
-      <button type="submit">Sign up</button>
-    </form>
-  )
+    return (
+        <form onSubmit={handleSubmit((data) => console.log(data.phone?.number))}>
+            <Controller
+                name="phone"
+                control={control}
+                rules={{ validate: (v) => v?.isValid || "Enter a valid phone number" }}
+                render={({ field }) => (
+                    <PhoneNumberInput
+                        defaultCountry="UG"
+                        value={field.value?.number ?? ""}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                    />
+                )}
+            />
+            <button type="submit">Sign up</button>
+        </form>
+    );
 }
 ```
 
 ### With a plain HTML form
 
-The visible input holds the *formatted national number* (for example `0772 123456`), without the country code. That is not something you want to post. Keep the E.164 value in state and submit it through a hidden input:
+The visible input holds the _formatted national number_ (for example `0772 123456`), without the country code. That is not something you want to post. Keep the E.164 value in state and submit it through a hidden input:
 
 ```tsx
 const [phone, setPhone] = useState<PhoneValue | null>(null)
@@ -397,43 +400,43 @@ Pressing Enter in the country search never submits a surrounding form.
 
 ## Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `value` | `string` | | Controlled value, E.164 (`+256772123456`) |
-| `defaultValue` | `string` | | Initial value when uncontrolled, E.164 |
-| `defaultCountry` | `string` | `"US"` | ISO code used when there is no value |
-| `onChange` | `(value: PhoneValue) => void` | | Called on every change |
-| `onBlur` | `FocusEventHandler<HTMLInputElement>` | | Blur handler for the number input |
-| `countries` | `string[]` | all | Restrict the list to these ISO codes |
-| `preferredCountries` | `string[]` | | Pinned to the top under "Popular" |
-| `renderFlag` | `(code: string) => ReactNode` | emoji flag | Custom flag renderer |
-| `modalTitle` | `string` | `"Select country"` | Heading of the country modal |
-| `searchPlaceholder` | `string` | `"Search country or code"` | Placeholder of the search box |
-| `showValidation` | `boolean` | `true` | Show the border colour, icon and message |
-| `showIncompleteWhileTyping` | `boolean` | `true` | Show the "incomplete" hint before blur |
-| `messages` | `{ invalid?, incomplete?, required?, valid? }` | see [Messages](#messages) | Validation text |
-| `className` | `string` | | Classes for the outermost element |
-| `classNames` | `Partial<Record<SlotName, string \| (state) => string>>` | | Classes per slot, see [Slots](#slots) |
-| `unstyled` | `boolean \| SlotName[]` | `false` | Remove default classes everywhere, or for listed slots |
-| `name`, `id`, `placeholder`, `autoFocus` | | | Passed to the number input |
-| `disabled`, `required` | `boolean` | | Passed to the number input (`required` also drives the "required" message) |
-| `aria-label` | `string` | `"Phone number"` | Accessible label of the number input |
-| `aria-invalid` | `boolean` | | Overrides the automatic value |
+| Prop                                     | Type                                                     | Default                    | Description                                                                |
+| ---------------------------------------- | -------------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------- |
+| `value`                                  | `string`                                                 |                            | Controlled value, E.164 (`+256772123456`)                                  |
+| `defaultValue`                           | `string`                                                 |                            | Initial value when uncontrolled, E.164                                     |
+| `defaultCountry`                         | `string`                                                 | `"US"`                     | ISO code used when there is no value                                       |
+| `onChange`                               | `(value: PhoneValue) => void`                            |                            | Called on every change                                                     |
+| `onBlur`                                 | `FocusEventHandler<HTMLInputElement>`                    |                            | Blur handler for the number input                                          |
+| `countries`                              | `string[]`                                               | all                        | Restrict the list to these ISO codes                                       |
+| `preferredCountries`                     | `string[]`                                               |                            | Pinned to the top under "Popular"                                          |
+| `renderFlag`                             | `(code: string) => ReactNode`                            | emoji flag                 | Custom flag renderer                                                       |
+| `modalTitle`                             | `string`                                                 | `"Select country"`         | Heading of the country modal                                               |
+| `searchPlaceholder`                      | `string`                                                 | `"Search country or code"` | Placeholder of the search box                                              |
+| `showValidation`                         | `boolean`                                                | `true`                     | Show the border colour, icon and message                                   |
+| `showIncompleteWhileTyping`              | `boolean`                                                | `true`                     | Show the "incomplete" hint before blur                                     |
+| `messages`                               | `{ invalid?, incomplete?, required?, valid? }`           | see [Messages](#messages)  | Validation text                                                            |
+| `className`                              | `string`                                                 |                            | Classes for the outermost element                                          |
+| `classNames`                             | `Partial<Record<SlotName, string \| (state) => string>>` |                            | Classes per slot, see [Slots](#slots)                                      |
+| `unstyled`                               | `boolean \| SlotName[]`                                  | `false`                    | Remove default classes everywhere, or for listed slots                     |
+| `name`, `id`, `placeholder`, `autoFocus` |                                                          |                            | Passed to the number input                                                 |
+| `disabled`, `required`                   | `boolean`                                                |                            | Passed to the number input (`required` also drives the "required" message) |
+| `aria-label`                             | `string`                                                 | `"Phone number"`           | Accessible label of the number input                                       |
+| `aria-invalid`                           | `boolean`                                                |                            | Overrides the automatic value                                              |
 
 ### Exported types
 
 ```ts
 import type {
-  PhoneNumberInputProps,
-  PhoneValue,
-  PhoneStatus,
-  ValidationMessages,
-  Country,
-  ClassNames,
-  ClassValue,
-  SlotName,
-  SlotState,
-} from 'your-package-name'
+    PhoneNumberInputProps,
+    PhoneValue,
+    PhoneStatus,
+    ValidationMessages,
+    Country,
+    ClassNames,
+    ClassValue,
+    SlotName,
+    SlotState,
+} from "waanverse-phone-number-input";
 ```
 
 ## Accessibility
@@ -456,4 +459,4 @@ import type {
 
 ## License
 
-MIT
+MIT License, see [LICENSE](./LICENSE)
