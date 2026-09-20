@@ -1,14 +1,23 @@
 {
     "compilerOptions": {
+        "noEmit": false,
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "outDir": "./dist",
+
+        "rootDir": "./src",
+
+        "strict": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+
         "target": "ES2022",
         "lib": ["DOM", "DOM.Iterable", "ES2022"],
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
-        "outDir": "dist",
 
         "jsx": "react-jsx",
 
-        "strict": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
         "strictFunctionTypes": true,
@@ -18,11 +27,8 @@
         "noFallthroughCasesInSwitch": true,
 
         "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
 
-        "noEmit": true,
         "isolatedModules": true
     },
     "include": ["src/**/*"],

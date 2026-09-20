@@ -11,7 +11,7 @@ export default defineConfig({
     dts: true,
 
     // 4. Critical: Do NOT bundle React into your package code
-    external: ["react", "react-dom"],
+    external: ["react", "react-dom", "google-libphonenumber"],
 
     // 5. Bundle internal CSS/styles if you have them, or extract them cleanly
     injectStyle: false, // Set to true if you want CSS injected directly into JS

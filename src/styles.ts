@@ -29,8 +29,9 @@ export const defaultClassNames: Record<SlotName, ClassValue> = {
     buttonIcon: "h-4 w-4 text-neutral-400",
 
     input:
-        "h-full min-w-0 flex-1 rounded-r-lg bg-transparent px-3 outline-none " +
-        "placeholder:text-neutral-400 disabled:cursor-not-allowed",
+        "appearance-none bg-transparent border-none outline-none ring-0 shadow-none m-0 p-0 " +
+        "focus:outline-none focus:ring-0 focus:border-none " +
+        "h-full min-w-0 flex-1 px-3 placeholder:text-neutral-400 disabled:cursor-not-allowed",
     statusIcon: (s) =>
         cx("mr-3 h-5 w-5 shrink-0", s.status === "valid" ? "text-green-600" : "text-red-500"),
     message: (s) =>
